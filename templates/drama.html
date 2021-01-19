@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block script %}
+    {{ block.super }}
+
+{% endblock %}
+
+{% block body %}
+
+{% include "navbar.html" %}
+
+    <main id = "main">
+        <br><br>
+    <section id="album" class="team">
+      <div class="container">
+
+        <div class="section-title" style="float:left;">
+          <h2>Drama</h2>
+
+            <div class="container d-flex align-items-center" style="float:left;">
+            <nav class="nav-menu d-none d-lg-block">
+            <ul>
+              <li>All Drama > </li>
+              <li class="drop-down">Subgenre
+                <ul>
+                  <li><a href="romantic_comedy">Romantic Comedy</a></li>
+                  <li><a href="melodrama">Melodrama</a></li>
+                  <li><a href="action_and_thriller">Action and Thriller</a></li>
+                  <li><a href="history">History</a></li>
+                </ul>
+              </li>
+            </ul>
+            </nav></div>
+
+        </div>
+
+
+
+        {% include "menu_contents.html" %}
+
+      </div>
+    </section>
+    </main>
+
+{% include "footer.html" %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block script %}
+    {{ block.super }}
+
+{% endblock %}
+
+{% block body %}
+
+{% include "navbar.html" %}
+
+    <main id = "main">
+        <br><br>
+    <section id="album" class="team">
+      <div class="container">
+
+        <div class="section-title" style="float:left;">
+          <h2>FAVORITE</h2>
+        </div>
+
+      </div>
+    </section>
+    </main>
+
+{% include "footer.html" %}
+{% endblock %}
