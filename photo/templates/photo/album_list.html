@@ -14,33 +14,34 @@
 
 {% load static %}
 {% for item in object_list|slice:":8" %}
-<div class="container">
+<div class="container" style="margin-bottom:100px;">
     <div class="section-title" style="float:left;">
-        <h2>{{ item.name }}</h2>
-        </div>
-        <div class="section-title" style="float:left;margin-left:10px;margin-top:10px;">
-          <a href="{% url 'photo:album_detail' item.id %}">
-            <u>see More</u>
-          </a>
-        </div>
-        <div id="newCarousel" class="carousel slide w-100" data-ride="carousel" data-interval="false">
+        <a href="{% url 'photo:album_detail' item.id %}"><h2>{{ item.name }}</h2></a>
+    </div>
+
+    <a href="{% url 'photo:album_detail' item.id %}"><u>see More</u></a>
+        <div id="Carousel{{ item.id }}" class="carousel slide w-100" data-ride="carousel" data-interval="false">
           <div class="carousel-inner w-100" role="listbox">
             <div class="carousel-item row no-gutters active">
                 {% for photo in item.photo_set.all|slice:":4" %}
-              <div class="col-3 float-left"><a href="{{ photo.get_absolute_url }}"><img class="img-fluid" src="{{ photo.image.thumb_url }}"></a><p>{{ photo.title }}</p></div>
+              <div class="col-3 float-left"><a href="{{ photo.get_absolute_url }}">
+                  <img class="img-fluid" src="{{ photo.image.thumb_url }}" style="width:100%;">
+              </a><p>{{ photo.title }}</p></div>
                 {% endfor %}
             </div>
             <div class="carousel-item row no-gutters">
               {% for photo in item.photo_set.all|slice:"4:8" %}
-              <div class="col-3 float-left"><a href="{{ photo.get_absolute_url }}"><img class="img-fluid" src="{{ photo.image.thumb_url }}"></a><p>{{ photo.title }}</p></div>
+              <div class="col-3 float-left"><a href="{{ photo.get_absolute_url }}">
+                  <img class="img-fluid" src="{{ photo.image.thumb_url }}" style="width:100%;">
+              </a><p>{{ photo.title }}</p></div>
                 {% endfor %}
             </div>
           </div>
-          <a class="carousel-control-prev" href="#newCarousel" role="button" data-slide="prev">
+          <a class="carousel-control-prev" href="#Carousel{{ item.id }}" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
           </a>
-          <a class="carousel-control-next" href="#newCarousel" role="button" data-slide="next">
+          <a class="carousel-control-next" href="#Carousel{{ item.id }}" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>

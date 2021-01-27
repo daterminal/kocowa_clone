@@ -55,7 +55,7 @@
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="taste">TASTE24HR</a></li>
+          <li><a href="{% url 'photo:album_detail' 1 %}">TASTE24HR</a></li>
           <li class="drop-down"><a href="drama">DRAMA</a>
             <ul>
               <li><a href="romantic_comedy">Romantic Comedy</a></li>
@@ -64,9 +64,8 @@
               <li><a href="history">History</a></li>
             </ul>
           </li>
-          <li><a href="variety">VARIETY</a></li>
-          <li><a href="kpop">KPOP</a></li>
-          <li><a href="docu">DOCU</a></li>
+          <li><a href="{% url 'photo:album_detail' 3 %}">VARIETY</a></li>
+          <li><a href="{% url 'photo:album_detail' 10 %}">KPOP</a></li>
           <li><a href="mykocowa">MY KOCOWA</a></li>
           <li><a href="{% url 'photo:index' %}">PHOTO</a></li>
           <li><a href="https://blog.kocowa.com/" target="_blank">BLOG</a></li>
@@ -98,7 +97,7 @@
     </div>
   </header><!-- End Header -->
 
-
+<div style="margin-top:100px;"></div>
 {% block content %}
 
 {% endblock %}
@@ -125,9 +124,9 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>KCP</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Corporate Information</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Careerss</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Business Inquiries</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="http://kcpglob.com/">Corporate Information</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="http://kcpglob.com/careers/">Careerss</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="http://kcpglob.com/contact-kcp/">Business Inquiries</a></li>
             </ul>
           </div>
 
@@ -135,10 +134,10 @@
             <div class="footer-info">
               <h4>SOCIAL MEDIA</h4>
               <div class="social-links mt-3">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="https://twitter.com/kocowa_official" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="https://www.facebook.com/kocowa/" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="https://www.instagram.com/kocowa.official/" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="https://twitter.com/kocowa_official" class="google-plus"><i class="bx bxl-skype"></i></a>
                 <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
               </div>
             </div>
