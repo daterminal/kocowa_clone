@@ -1,8 +1,16 @@
 {% extends "base.html" %}
-{% load static %}
+
+{% block title %}album_list.html{% endblock %} 
+
+{% block extra-style %}
+<style>
+.thumbnail {
+    border: 3px solid #ccc;
+}
+</style>
+{% endblock %}
 
 {% block content %}
-
 
   <!-- ======= Hero Section ======= -->
   <section id="hero">
@@ -20,7 +28,7 @@
                 <h2 class="animate__animated animate__fadeInDown">Phoenix 2020</h2>
                 <p class="animate__animated animate__fadeInUp">This remake drama about a man and a woman separated by class, but not by love. Will they reunite when their roles reverse, or will it only keep them apart?</p>
                 <div>
-                  <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
+                  <a href="{% url 'photo:photo_detail' 4 %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
                 </div>
               </div>
             </div>
@@ -33,7 +41,7 @@
                 <h2 class="animate__animated animate__fadeInDown">Running Man Classics</h2>
                 <p class="animate__animated animate__fadeInUp">Remember the early days when Lizzy was part of the crew? See her in Episode 24.</p>
                 <div>
-                  <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
+                  <a href="{% url 'photo:photo_detail' 21 %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
                 </div>
               </div>
             </div>
@@ -47,7 +55,7 @@
                 <h2 class="animate__animated animate__fadeInDown">Delayed Justice</h2>
                 <p class="animate__animated animate__fadeInUp">A public defender teams up with a sensitive reporter to fight for justice for wrongfully accused individuals in this laugh-out-loud dramedy</p>
                 <div>
-                  <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
+                  <a href="{% url 'photo:photo_detail' 2 %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
                 </div>
               </div>
             </div>
@@ -69,9 +77,42 @@
     </div>
   </section><!-- End Hero -->
 
+{% load static %}
+{% for item in object_list|slice:":8" %}
+<div class="container" style="margin-bottom:100px;">
+    <div class="section-title" style="float:left;">
+        <a href="{% url 'photo:album_detail' item.id %}"><h2>{{ item.name }}</h2></a>
+    </div>
 
-    <main id="main">
-    </main>
-    {% include "home_contents.html" %}
+    <a href="{% url 'photo:album_detail' item.id %}"><u>see More</u></a>
+        <div id="Carousel{{ item.id }}" class="carousel slide w-100" data-ride="carousel" data-interval="false">
+          <div class="carousel-inner w-100" role="listbox">
+            <div class="carousel-item row no-gutters active">
+                {% for photo in item.photo_set.all|slice:":4" %}
+              <div class="col-3 float-left"><a href="{{ photo.get_absolute_url }}">
+                  <img class="img-fluid" src="{{ photo.image.thumb_url }}" style="width:100%;">
+              </a><p>{{ photo.title }}</p></div>
+                {% endfor %}
+            </div>
+            <div class="carousel-item row no-gutters">
+              {% for photo in item.photo_set.all|slice:"4:8" %}
+              <div class="col-3 float-left"><a href="{{ photo.get_absolute_url }}">
+                  <img class="img-fluid" src="{{ photo.image.thumb_url }}" style="width:100%;">
+              </a><p>{{ photo.title }}</p></div>
+                {% endfor %}
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#Carousel{{ item.id }}" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#Carousel{{ item.id }}" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+</div>
+{% endfor %}
 
 {% endblock %}
+
