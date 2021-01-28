@@ -1,3 +1,15 @@
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from drama.models import Genre, Drama
 
-# Create your views here.
+
+class GenreLV(ListView):
+    model = Genre
+
+
+class GenreDV(DetailView):
+    model = Genre
+
+
+class DramaDV(DetailView):
+    model = Drama
+

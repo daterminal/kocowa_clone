@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}drama_detail.html{% endblock %}
+
+{% block content %}
+
+    <h2 class="mt-5">{{ object.title }}</h2>
+
+    <div class="row">
+        <div class="col-md-9">
+            <a href="{{ object.image.url }}">
+                <img src="{{ object.image.url }}" style="width: 100%;">
+            </a>
+        </div>
+
+        <ul class="col-md-3 mt-3">
+            <li class="h5">Drama Description</li>
+                {% if object.description %}<p>{{ object.description|linebreaks }}</p>
+                {% else %}<p>(blank)</p>{% endif %}
+            <li class="h5">Date Uploaded</li>
+                <p class="font-italic">{{ object.upload_dt }}</p>
+            <li class="h5">Genre Name</li>
+                <p class="font-italic">
+                  <a href="{% url 'drama:genre_detail' object.genre.id %}"> {{ object.genre.name }}</a>
+                </p>
+        </ul>
+    </div>
+
+{% endblock %}
