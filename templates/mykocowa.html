@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-5">내가 좋아요 누른 컨텐츠</h2>
+
+        {% for post in post_likes  %}
+        <a href="{%url 'drama:drama_detail' post.id%}">{{post.title}}</a>
+        <p>{{post.content|truncatewords:50}}</p>
+        <p>{{post.upload_dt|date:"Y년m월d일"}}</p>
+        {% endfor %}
+    {% for post in post_loves  %}
+        <a href="{%url 'photo:photo_detail' post.id%}">{{post.title}}</a>
+        <p>{{post.content|truncatewords:50}}</p>
+        <p>{{post.upload_dt|date:"Y년m월d일"}}</p>
+        {% endfor %}
+
+</div>
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'photo.apps.PhotoConfig',
     'drama.apps.DramaConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -76,10 +77,20 @@ WSGI_APPLICATION = 'kocowa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kocowa',
+        'USER': 'root',
+        'PASSWORD': '12345!',
+        'HOST': '223.194.46.212',
+        'PORT': '3306',
     }
 }
 
@@ -126,3 +137,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_REDIRECT_URL = '/'

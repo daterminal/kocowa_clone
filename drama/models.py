@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 
 from drama.fields import ThumbnailImageField
 
@@ -24,6 +25,7 @@ class Drama(models.Model):
     description = models.TextField('Drama Description', blank=True)
     image = ThumbnailImageField('IMAGE', upload_to='photo/%Y/%m')
     upload_dt = models.DateTimeField('UPLOAD DATE', auto_now_add=True)
+    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True)
 
     class Meta:
         ordering = ('title',)

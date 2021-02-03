@@ -18,4 +18,6 @@ urlpatterns = [
     # Example: /photo/photo/99/
     path('photo/<int:pk>/', views.PhotoDV.as_view(), name='photo_detail'),
 
+    path('love/', views.loves, name="loves"),
+
 ]
