@@ -3,13 +3,15 @@
 {% block title %}photo_detail.html{% endblock %}
 
 {% block content %}
+<div class="container" style="margin-bottom:100px;">
 
     <h2 class="mt-5">{{ object.title }}</h2> 
     
     <div class="row"> 
         <div class="col-md-9">
             <a href="{{ object.image.url }}">
-                <img src="{{ object.image.url }}" style="width: 100%;">
+                <img src="{{ object.image.url }}" style="width: 50%;">
+                <img src="/static/assets/img/green-play-button.png" style="width: 10%;">
             </a>
         </div>
     
@@ -26,5 +28,47 @@
         </ul>
     </div>
 
+<button id="{{photo.id}}" onclick="post_love(this.id)" class="btn btn-info btn-sm like" style="margin-top: 7px">
+          {%if request.user in photo.love.all%}
+          <!-- 로그인 한 유저가 좋아요를 누른 유저일때  -->
+          <i id="heart" class="fas fa-heart"></i>
+          {%else%}
+          <!-- 로그인 한 유저가 좋아요를 누른 유저가 아닐 때  -->
+          <i id="heart" class="far fa-heart"></i>
+          {%endif%}
+          <span id="love_count">♥ {{photo.love.count}}</span>
+  </button>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function post_love(id) {
+            console.log("hi")
+            $.ajax({
+                url: "{% url 'photo:loves' %}", // data를 전송할 url 입니다.
+                data: {
+                    'photo_id': id
+                }, // post_id 라는 name으로 id 값 전송
+                dataType: "json",
+                success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
+                    $('#love_count').html(response.love_count) //id가 like_count의 내용을 전송받은 좋아요 수로 바꾼다
+                    $('#message').html(response.message) //id가 message의 내용을 전송받은 message로 바꾼다
+                    $('.toast').fadeIn(400).delay(100).fadeOut(400)
+                    if (response.message == "좋아요")
+                    //좋아요 눌렀을 때
+                    {
+                        $('#heart').attr("class", "fas fa-heart")
+                    } else if (response.message == "좋아요 취소")
+                    //좋아요 상태에서 다시 눌렀을 때
+                    {
+                        $('#heart').attr("class", "far fa-heart")
+                    }
+                    alert(response.message)
+                }
+            })
+        }
+    </script>
+
+</div>
 {% endblock %}
 
