@@ -19,5 +19,6 @@ urlpatterns = [
     path('accounts/register/done/', UserCreateDoneTV.as_view(), name='register_done'),
 
     path('mykocowa/',views.mykocowa,name='mykocowa'),
-
+    path('plan', views.plan, name='plan'),
+    
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
