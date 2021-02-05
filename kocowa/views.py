@@ -29,3 +29,6 @@ def mykocowa(request):
         return render(request, 'mykocowa.html',context)
     except:
         return render(request, 'registration/login.html')
+    
+def plan(request):
+    return render(request,'plan.html')
