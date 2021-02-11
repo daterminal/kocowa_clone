@@ -1,9 +1,76 @@
 {% extends "base.html" %}
 {% load static %}
 
+    {% block scripts %}
+    {{ block.super }}
+    {% csrf_token %}
+    <script>
+    function writeLog(menuUrl) {
+
+        var req = new XMLHttpRequest();
+        var nextUrl = window.location.origin+menuUrl;
+        req.open('GET', nextUrl, false);
+        req.send(null);
+
+        var data = new Object();
+
+        var headers = req.getAllResponseHeaders().toLowerCase();
+        var aHeaders = headers.split('\n');
+        var i =0;
+        for (i= 0; i < aHeaders.length; i++) {
+            var thisItem = aHeaders[i];
+            var key = thisItem.substring(0, thisItem.indexOf(':'));
+            var value = thisItem.substring(thisItem.indexOf(':')+1);
+            if (key == "server") {
+                server = value;
+            }
+        }
+
+        myserver = server.slice(1,5); //wsgi
+        var useragent = navigator.userAgent;
+        var myurl = window.location.origin+menuUrl;
+
+        querystr = 'mutation { weblogCreate(serverDesc: "'+myserver+'", urlDesc: "'+myurl+'", userAgent: "'+useragent+'") { weblog { memberNo serverDesc useragent urlDesc logDate } } }'
+
+        //return false;
+
+        const options = {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            query: querystr
+          })
+        };
+        var grp = window.location.origin+'/graphql'
+        fetch(grp, options)
+          .then(
+            function(response) {
+              if (response.status !== 200) {
+                console.log('Error : ' + response.status);
+                return;
+              }
+              response.json().then(function(data) {
+                var i;
+                var obj = data.data.weblogCreate.weblog;
+                //document.getElementById("headerbox").innerHTML =  querystr;
+                //alert(obj.urlDesc);
+              });
+            }
+          )
+          .catch(function(err) {
+            console.log('Fetch error :-S', err);
+            //alert(err);
+          });
+        location.href = myurl;
+        //location.href = myurl+menuUrl;
+    }
+
+    </script>
+{% endblock %}
+
 {% block content %}
-
-
   <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div class="hero-container">
@@ -20,7 +87,7 @@
                 <h2 class="animate__animated animate__fadeInDown">Phoenix 2020</h2>
                 <p class="animate__animated animate__fadeInUp">This remake drama about a man and a woman separated by class, but not by love. Will they reunite when their roles reverse, or will it only keep them apart?</p>
                 <div>
-                  <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
+                  <a onclick="writeLog('#about')" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
                 </div>
               </div>
             </div>
@@ -33,7 +100,7 @@
                 <h2 class="animate__animated animate__fadeInDown">Running Man Classics</h2>
                 <p class="animate__animated animate__fadeInUp">Remember the early days when Lizzy was part of the crew? See her in Episode 24.</p>
                 <div>
-                  <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
+                  <a onclick="writeLog('#about')" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
                 </div>
               </div>
             </div>
@@ -47,7 +114,7 @@
                 <h2 class="animate__animated animate__fadeInDown">Delayed Justice</h2>
                 <p class="animate__animated animate__fadeInUp">A public defender teams up with a sensitive reporter to fight for justice for wrongfully accused individuals in this laugh-out-loud dramedy</p>
                 <div>
-                  <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
+                  <a onclick="writeLog('#about')" class="btn-get-started animate__animated animate__fadeInUp scrollto">Watch Now</a>
                 </div>
               </div>
             </div>
