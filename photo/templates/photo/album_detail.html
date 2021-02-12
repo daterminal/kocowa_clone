@@ -10,6 +10,75 @@
 </style>
 {% endblock %}
 
+    {% block scripts %}
+    {{ block.super }}
+    {% csrf_token %}
+    <script>
+    function writeLog(menuUrl) {
+
+        var req = new XMLHttpRequest();
+        var nextUrl = window.location.origin+menuUrl;
+        req.open('GET', nextUrl, false);
+        req.send(null);
+
+        var data = new Object();
+
+        var headers = req.getAllResponseHeaders().toLowerCase();
+        var aHeaders = headers.split('\n');
+        var i =0;
+        for (i= 0; i < aHeaders.length; i++) {
+            var thisItem = aHeaders[i];
+            var key = thisItem.substring(0, thisItem.indexOf(':'));
+            var value = thisItem.substring(thisItem.indexOf(':')+1);
+            if (key == "server") {
+                server = value;
+            }
+        }
+
+        myserver = server.slice(1,5); //wsgi
+        var useragent = navigator.userAgent;
+        var myurl = window.location.origin+menuUrl;
+
+        querystr = 'mutation { weblogCreate(serverDesc: "'+myserver+'", urlDesc: "'+myurl+'", userAgent: "'+useragent+'") { weblog { memberNo serverDesc useragent urlDesc logDate } } }'
+
+        //return false;
+
+        const options = {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            query: querystr
+          })
+        };
+        var grp = window.location.origin+'/graphql'
+        fetch(grp, options)
+          .then(
+            function(response) {
+              if (response.status !== 200) {
+                console.log('Error : ' + response.status);
+                return;
+              }
+              response.json().then(function(data) {
+                var i;
+                var obj = data.data.weblogCreate.weblog;
+                //document.getElementById("headerbox").innerHTML =  querystr;
+                //alert(obj.urlDesc);
+              });
+            }
+          )
+          .catch(function(err) {
+            console.log('Fetch error :-S', err);
+            //alert(err);
+          });
+        location.href = myurl;
+        //location.href = myurl+menuUrl;
+    }
+
+    </script>
+{% endblock %}
+
 {% block content %}
 <div class="container" style="margin-bottom:100px;">
 
@@ -25,7 +94,7 @@
         {% for photo in object.photo_set.all %} 
         <div class="col-md-3 mb-5"> 
             <div class="thumbnail">
-                <a href="{{ photo.get_absolute_url }}">
+                <a onclick="writeLog('{{ photo.get_absolute_url }}')" style="cursor:pointer">
                     <img src="{{ photo.image.thumb_url }}" style="width: 100%;">
                 </a>
             </div>
