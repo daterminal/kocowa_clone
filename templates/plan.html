@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+
   <section id="album" class="team">
     <div class="container">
 
@@ -34,6 +35,7 @@
 
       <div class="section-title">
         <h2>MY MEMBERSHIP</h2>
+        <p>{% firstof user.get_short_name user.get_username %}</p>
       </div>
 
       <div class="row">

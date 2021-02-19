@@ -1,13 +1,12 @@
 from django.shortcuts import render
 
 from django.views.generic import TemplateView, CreateView
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from userauth.models import CustomUser
+from userauth.admin import UserCreationForm
 
-# Create your views here.
-def home(request):
-    return render(request,"home.html")
 
 class UserCreateView(CreateView):
     template_name = 'registration/register.html'
@@ -19,7 +18,7 @@ class UserCreateDoneTV(TemplateView):
 
 def mykocowa(request):
     try:
-        user = User.objects.get(id = request.user.id)
+        user = CustomUser.objects.get(id = request.user.id)
         post_likes = user.likes.all()
         post_loves = user.loves.all()
         context={

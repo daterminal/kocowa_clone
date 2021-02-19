@@ -10,97 +10,28 @@
 </style>
 {% endblock %}
 
-    {% block scripts %}
-    {{ block.super }}
-    {% csrf_token %}
-    <script>
-    function writeLog(menuUrl) {
-
-        var req = new XMLHttpRequest();
-        var nextUrl = window.location.origin+menuUrl;
-        req.open('GET', nextUrl, false);
-        req.send(null);
-
-        var data = new Object();
-
-        var headers = req.getAllResponseHeaders().toLowerCase();
-        var aHeaders = headers.split('\n');
-        var i =0;
-        for (i= 0; i < aHeaders.length; i++) {
-            var thisItem = aHeaders[i];
-            var key = thisItem.substring(0, thisItem.indexOf(':'));
-            var value = thisItem.substring(thisItem.indexOf(':')+1);
-            if (key == "server") {
-                server = value;
-            }
-        }
-
-        myserver = server.slice(1,5); //wsgi
-        var useragent = navigator.userAgent;
-        var myurl = window.location.origin+menuUrl;
-
-        querystr = 'mutation { weblogCreate(serverDesc: "'+myserver+'", urlDesc: "'+myurl+'", userAgent: "'+useragent+'") { weblog { memberNo serverDesc useragent urlDesc logDate } } }'
-
-        //return false;
-
-        const options = {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            query: querystr
-          })
-        };
-        var grp = window.location.origin+'/graphql'
-        fetch(grp, options)
-          .then(
-            function(response) {
-              if (response.status !== 200) {
-                console.log('Error : ' + response.status);
-                return;
-              }
-              response.json().then(function(data) {
-                var i;
-                var obj = data.data.weblogCreate.weblog;
-                //document.getElementById("headerbox").innerHTML =  querystr;
-                //alert(obj.urlDesc);
-              });
-            }
-          )
-          .catch(function(err) {
-            console.log('Fetch error :-S', err);
-            //alert(err);
-          });
-        location.href = myurl;
-        //location.href = myurl+menuUrl;
-    }
-
-    </script>
-{% endblock %}
-
 {% block content %}
 
 {% load static %}
 {% for item in object_list|slice:":8" %}
 <div class="container" style="margin-bottom:100px;">
     <div class="section-title" style="float:left;">
-        <a onclick="writeLog('{% url 'drama:genre_detail' item.id %}')" style="cursor:pointer"><h2>{{ item.name }}</h2></a>
+        <a href="{% url 'drama:genre_detail' item.id %}"><h2>{{ item.name }}</h2></a>
     </div>
 
-    <a onclick="writeLog('{% url 'drama:genre_detail' item.id %}')" style="cursor:pointer"><u>see More</u></a>
+    <a href="{% url 'drama:genre_detail' item.id %}"><u>see More</u></a>
         <div id="Carousel{{ item.id }}" class="carousel slide w-100" data-ride="carousel" data-interval="false">
           <div class="carousel-inner w-100" role="listbox">
             <div class="carousel-item row no-gutters active">
                 {% for drama in item.drama_set.all|slice:":4" %}
-              <div class="col-3 float-left"><a onclick="writeLog('{{ drama.get_absolute_url }}')" style="cursor:pointer">
+              <div class="col-3 float-left"><a href="{{ drama.get_absolute_url }}">
                   <img class="img-fluid" src="{{ drama.image.thumb_url }}" style="width:100%;">
               </a><p>{{ drama.title }}</p></div>
                 {% endfor %}
             </div>
             <div class="carousel-item row no-gutters">
               {% for drama in item.drama_set.all|slice:"4:8" %}
-              <div class="col-3 float-left"><a onclick="writeLog('{{ drama.get_absolute_url }}')" style="cursor:pointer">
+              <div class="col-3 float-left"><a href="{{ drama.get_absolute_url }}">
                   <img class="img-fluid" src="{{ drama.image.thumb_url }}" style="width:100%;">
               </a><p>{{ drama.title }}</p></div>
                 {% endfor %}
