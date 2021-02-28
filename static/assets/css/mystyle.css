@@ -1,0 +1,25 @@
+/*list의 title*/
+.mt-5 span {
+    color:#5c9f24;
+    font-weight:bold;
+}
+
+.container a {
+    cursor:pointer;
+}
+
+/* seeMore */
+.container a u {
+   margin-left:10px;
+   color:#5c9f24;
+}
+
+.mymenu li a {
+    color: rgba(255, 255, 255, 0.7);
+    cursor:pointer;
+}
+
+#page-header h1 {
+    color:#5c9f24;
+    font-weight:bold;
+}

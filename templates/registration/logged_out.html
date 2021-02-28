@@ -1,10 +1,79 @@
 {% extends "base.html" %}
 
 {% block title %}logged_out.html{% endblock %}
+    {% block scripts %}
+    {{ block.super }}
+    {% csrf_token %}
+        <script>
+            function writeAgainLog(menuUrl) {
+                    var req = new XMLHttpRequest();
+                    var nextUrl = window.location.origin+menuUrl;
+                    //req.open('GET', document.location, false);
+                    req.open('GET', nextUrl, false);
+                    //req.open('GET', nextUrl);
+                    req.send(null);
+
+                    var data = new Object();
+
+                    var headers = req.getAllResponseHeaders().toLowerCase();
+                    var aHeaders = headers.split('\n');
+                    var i =0;
+                    for (i= 0; i < aHeaders.length; i++) {
+                        var thisItem = aHeaders[i];
+                        var key = thisItem.substring(0, thisItem.indexOf(':'));
+                        var value = thisItem.substring(thisItem.indexOf(':')+1);
+                        if (key == "server") {
+                            server = value;
+                        }
+                    }
+
+                    myserver = server.slice(1,5); //wsgi
+                    var useragent = navigator.userAgent;
+                    var myurl = window.location.origin+menuUrl;
+                    //var myurl = window.location.href;
+
+                    querystr = 'mutation { weblogCreate(serverDesc: "'+myserver+'", urlDesc: "'+myurl+'", userAgent: "'+useragent+'",action: "'+this.event.target.text+'") { weblog { memberNo serverDesc useragent urlDesc action logDate } } }'
+
+                    //return false;
+
+                    const options = {
+                      method: "post",
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                      body: JSON.stringify({
+                        query: querystr
+                      })
+                    };
+                    var grp = window.location.origin+'/graphql'
+                    fetch(grp, options)
+                      .then(
+                        function(response) {
+                          if (response.status !== 200) {
+                            console.log('Error : ' + response.status);
+                            return;
+                          }
+                          response.json().then(function(data) {
+                            var i;
+                            var obj = data.data.weblogCreate.weblog;
+                            //document.getElementById("headerbox").innerHTML =  querystr;
+                            //alert(obj.urlDesc);
+                          });
+                        }
+                      )
+                      .catch(function(err) {
+                        console.log('Fetch error :-S', err);
+                        //alert(err);
+                      });
+                    location.href = myurl;
+                    //location.href = myurl+menuUrl;
+                }
+        </script>
+    {% endblock %}
 
 {% block content %}
 
-    <h1>Logged out</h1>
+    <h1 style="padding-left:10px;">Logged out</h1>
     <br>
 
     <div>
@@ -13,7 +82,8 @@
         <i class="fas fa-quote-right"></i>
     </div>
 
-    <p class="font-italic"><a href="{% url 'login' %}">Log in again</a></p>
+    <br>
+    <p class="font-italic"><a onclick="writeAgainLog('{% url 'login' %}')" style="cursor:pointer;color:#808000;margin-left:10px;">Log in again</a></p>
 
 {% endblock %}
 

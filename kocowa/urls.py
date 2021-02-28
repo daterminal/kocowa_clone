@@ -5,11 +5,16 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from kocowa.views import UserCreateView, UserCreateDoneTV
+from graphene_django.views import GraphQLView
+from .schema import schema
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     # path('', views.home, name = "home"),
     path('', include('photo.urls')),
+    path('',include('weblog.urls')),
     path('admin/', admin.site.urls),
+    path('graphql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
     # path('photo/', include('photo.urls')),
     path('drama/', include('drama.urls')),
 
@@ -20,5 +25,7 @@ urlpatterns = [
 
     path('mykocowa/',views.mykocowa,name='mykocowa'),
     path('plan', views.plan, name='plan'),
-    
+    # path('getLog/',views.getLog,name='getLog'),
+    path('get_client_ip/',views.get_client_ip,name='get_client_ip'),
+
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

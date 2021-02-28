@@ -1,19 +1,19 @@
+from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from drama.models import Genre, Drama
-
+from django.core import serializers
 import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.views import View
 
 class GenreLV(ListView):
     model = Genre
 
-
 class GenreDV(DetailView):
     model = Genre
-
 
 class DramaDV(DetailView):
     model = Drama
@@ -39,3 +39,7 @@ def likes(request):
         # post.like.count() : 게시물이 받은 좋아요 수
         context = {'like_count': post.like.count(), "message": message}
         return HttpResponse(json.dumps(context), content_type='application/json')
+
+def video_detail(request,video_key):
+    video = Drama.objects.get(video_key = video_key)
+    return render(request,'drama/video_detail.html',{'video':video})

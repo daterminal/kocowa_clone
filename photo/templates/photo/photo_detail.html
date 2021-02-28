@@ -1,87 +1,34 @@
 {% extends "base.html" %}
 
 {% block title %}photo_detail.html{% endblock %}
+{% block scripts %}
+<script>
 
-    {% block scripts %}
-    {{ block.super }}
-    {% csrf_token %}
-    <script>
-    function writeLog(menuUrl) {
-
-        var req = new XMLHttpRequest();
-        var nextUrl = window.location.origin+menuUrl;
-        req.open('GET', nextUrl, false);
-        req.send(null);
-
-        var data = new Object();
-
-        var headers = req.getAllResponseHeaders().toLowerCase();
-        var aHeaders = headers.split('\n');
-        var i =0;
-        for (i= 0; i < aHeaders.length; i++) {
-            var thisItem = aHeaders[i];
-            var key = thisItem.substring(0, thisItem.indexOf(':'));
-            var value = thisItem.substring(thisItem.indexOf(':')+1);
-            if (key == "server") {
-                server = value;
-            }
-        }
-
-        myserver = server.slice(1,5); //wsgi
-        var useragent = navigator.userAgent;
-        var myurl = window.location.origin+menuUrl;
-
-        querystr = 'mutation { weblogCreate(serverDesc: "'+myserver+'", urlDesc: "'+myurl+'", userAgent: "'+useragent+'") { weblog { memberNo serverDesc useragent urlDesc logDate } } }'
-
-        //return false;
-
-        const options = {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            query: querystr
-          })
-        };
-        var grp = window.location.origin+'/graphql'
-        fetch(grp, options)
-          .then(
-            function(response) {
-              if (response.status !== 200) {
-                console.log('Error : ' + response.status);
-                return;
-              }
-              response.json().then(function(data) {
-                var i;
-                var obj = data.data.weblogCreate.weblog;
-                //document.getElementById("headerbox").innerHTML =  querystr;
-                //alert(obj.urlDesc);
-              });
-            }
-          )
-          .catch(function(err) {
-            console.log('Fetch error :-S', err);
-            //alert(err);
-          });
-        location.href = myurl;
-        //location.href = myurl+menuUrl;
-    }
-
-    </script>
+</script>
 {% endblock %}
 
 {% block content %}
+
 <div class="container" style="margin-bottom:100px;">
 
     <h2 class="mt-5">{{ object.title }}</h2> 
     
     <div class="row"> 
         <div class="col-md-9">
-            <a onclick="writeLog('{{ object.image.url }}')" style="cursor:pointer">
-                <img src="{{ object.image.url }}" style="width: 50%;">
+            <p><img src="{{ object.image.url }}" style="width: 50%;"></p>
+            <p><a onclick="writePlayLog('{% url 'photo:photo_video_detail' object.video_key %}')">
                 <img src="/static/assets/img/green-play-button.png" style="width: 10%;">
-            </a>
+            </a></p>
+            <button id="{{photo.id}}" onclick="post_love(this.id)" class="btn btn-info btn-sm like" style="margin-top: 7px">
+                  {%if request.user in photo.love.all%}
+                  <!-- 로그인 한 유저가 좋아요를 누른 유저일때  -->
+                  <i id="heart" class="fas fa-heart"></i>
+                  {%else%}
+                  <!-- 로그인 한 유저가 좋아요를 누른 유저가 아닐 때  -->
+                  <i id="heart" class="far fa-heart"></i>
+                  {%endif%}
+                  <span id="love_count">♥ {{photo.love.count}}</span>
+            </button>
         </div>
     
         <ul class="col-md-3 mt-3">
@@ -92,21 +39,13 @@
                 <p class="font-italic">{{ object.upload_dt }}</p>
             <li class="h5">Album Name</li>
                 <p class="font-italic">
-                    <a onclick="writeLog('{% url 'photo:album_detail' object.album.id %}')" style="cursor:pointer"> {{ object.album.name }}</a>
+                    <a onclick="writeContentLog('{% url 'photo:album_detail' object.album.id %}')" style="cursor:pointer;color:#808000;"> {{ object.album.name }}</a>
                 </p>
         </ul>
     </div>
+    <script>
 
-<button id="{{photo.id}}" onclick="post_love(this.id)" class="btn btn-info btn-sm like" style="margin-top: 7px">
-          {%if request.user in photo.love.all%}
-          <!-- 로그인 한 유저가 좋아요를 누른 유저일때  -->
-          <i id="heart" class="fas fa-heart"></i>
-          {%else%}
-          <!-- 로그인 한 유저가 좋아요를 누른 유저가 아닐 때  -->
-          <i id="heart" class="far fa-heart"></i>
-          {%endif%}
-          <span id="love_count">♥ {{photo.love.count}}</span>
-  </button>
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -136,6 +75,7 @@
                 }
             })
         }
+
     </script>
 
 </div>

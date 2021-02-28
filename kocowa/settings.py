@@ -26,8 +26,7 @@ SECRET_KEY = 'tcv@mcj6!^jv$5av9ohk+vk7+ma*9xsr&u!xf!h=%ldb%)hkbi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -41,6 +40,11 @@ INSTALLED_APPS = [
     'photo.apps.PhotoConfig',
     'drama.apps.DramaConfig',
     'widget_tweaks',
+    'weblog',
+    'graphene_django',
+    'corsheaders',
+    'membership',
+    'userauth.apps.UserauthConfig',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'kocowa.urls'
@@ -139,3 +144,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/'
+
+AUTH_USER_MODEL = 'userauth.CustomUser'
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True

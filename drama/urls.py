@@ -19,4 +19,8 @@ urlpatterns = [
     path('drama/<int:pk>/', views.DramaDV.as_view(), name='drama_detail'),
 
     path('like/', views.likes, name="likes"),
+
+    path('video_detail/<video_key>/', views.video_detail, name='video_detail'),
+
 ]
+

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}video_detail.html{% endblock %}
+
+{% block content %}
+{% load static %}
+    <style>
+        .page-header h1{
+            color:#5c9f24;
+            margin:10px;
+        }
+        .col-md-16 {
+            margin:10px;
+        }
+    </style>
+    <body>
+    <div class="content container">
+        <header class="page-header">
+            <h1>{{video.title}}</h1>
+        </header>
+        <div class="row" style="display:flex;justify-content:center;align-items:center;">
+            <div class="col-md-16">
+                <div id="player"></div>
+            </div>
+        </div>
+    </div>
+    </body>
+    <script>
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '{{ video.video_key }}'
+            });
+        }
+    </script>
+{% endblock %}

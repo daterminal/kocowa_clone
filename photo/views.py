@@ -1,12 +1,10 @@
 from django.views.generic import ListView, DetailView
 from photo.models import Album, Photo
-
+from django.shortcuts import render
 import json
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 class AlbumLV(ListView):
     model = Album
 
@@ -30,11 +28,29 @@ def loves(request):
 
         user = request.user  # request.user : 현재 로그인한 유저
         if post.love.filter(id=user.id).exists():  # 이미 좋아요를 누른 유저일 때
-            post.love.remove(user)  # love field에 현재 유저 추가
+            post.love.remove(user)  # love field에 현재 유저 삭제
             message = "좋아요 취소"  # 화면에 띄울 메세지
         else:  # 좋아요를 누르지 않은 유저일 때
-            post.love.add(user)  # love field에 현재 유저 삭제
+            post.love.add(user)  # love field에 현재 유저 추가
             message = "좋아요"  # 화면에 띄울 메세지
         # post.love.count() : 게시물이 받은 좋아요 수
         context = {'love_count': post.love.count(), "message": message}
         return HttpResponse(json.dumps(context), content_type='application/json')
+
+def photo_video_detail(request,video_key):
+    video = Photo.objects.get(video_key = video_key)
+    # member = Membership
+    return render(request,'photo/photo_video_detail.html',{'video':video})
+
+# @csrf_exempt
+# def episode_list(request):
+#     context ={}
+#     if request.method == "POST":
+#         bodydata = request.body
+#         bodyjson = json.loads(bodydata)
+#         title = bodyjson['title']
+#     # print(title)
+#     episode = Photo.objects.filter(title = title).order_by('episode')
+#     context['episode_list'] = serializers.serialize('json',episode)
+#     print(context['episode_list'])
+#     return HttpResponse(context, content_type='application/json')

@@ -20,4 +20,7 @@ urlpatterns = [
 
     path('love/', views.loves, name="loves"),
 
+    path('photo_video_detail/<video_key>/', views.photo_video_detail, name='photo_video_detail'),
+
+    # path('episode_list/', views.episode_list, name='episode_list'),
 ]

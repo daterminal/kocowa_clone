@@ -5,8 +5,8 @@
 
 {% block content %}
 
-    <h1>Please Login</h1>
-    <p class="font-italic">Please enter your id and password.</p>
+    <h1 style="padding-left:10px;">Please Login</h1>
+    <p class="font-italic" style="padding-left:10px;">Please enter your id and password.</p>
 
     {% if form.errors %}
     <div class="alert alert-danger">
@@ -15,7 +15,7 @@
     </div>
     {% endif %}
 
-    <form action="." method="post" class="card pt-3">{% csrf_token %}
+    <form action="" method="post" class="card pt-3">{% csrf_token %}
 
         <div class="form-group row">
             {{ form.username|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
@@ -36,7 +36,6 @@
                 <input type="hidden" name="next" value="{{ next }}" />
             </div>
         </div>
-
     </form>
 
 {% endblock %}
