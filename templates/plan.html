@@ -2,13 +2,27 @@
 {% load static %}
 
 {% block content %}
+    <style>
+        .pricing .box p {
+          padding: 0;
+          list-style: none;
+          color: #2a2a2a;
+          text-align: center;
+          line-height: 20px;
+          font-size: 16px;
+        }
+    </style>
   <section id="album" class="team">
     <div class="container">
-
       <div class="section-title" style="float:left;">
         <h2>Plan</h2>
       </div>
+    </div>
+  </section>
 
+  <section class="pricing">
+    <div class="box">
+      <p>이 페이지에서 멤버십 서비스에 가입해도 돈은 지불하지 않으며, 서비스 가입여부와 재가입을 파악하기 위한 페이지 입니다!</p>
     </div>
   </section>
 
@@ -39,39 +53,22 @@
       <div class="row">
         <div class="col-lg-4 col-md-6">
           <div class="box">
-            <h3>MONTHLY</h3>
-            <h4><sup>$</sup>6.99<span> / month</span></h4>
+            <h3>WEEKLY</h3>
+            <h4><sup>$</sup>3.99<span> / week</span></h4>
             <ul>
               <li>✓ No Advertisements</li>
               <li>✓ No Commitment</li>
-              <li>✓ 14-Day Free Trial</li>
+              <li>✓ 7-Day Free Trial</li>
               <li>✓ Hassle-Free-Automatic Renewal</li>
               <li>✓ Unlimited Dramas and TV Shows for a Month</li>
             </ul>
             <div class="btn-wrap">
-              <a href="#" class="btn-buy">Buy Now</a>
+              <a href="join_weekly_membership" class="btn-buy">Buy Now</a>
             </div>
           </div>
         </div>
 
         <div class="col-lg-4 col-md-6 mt-4 mt-md-0">
-          <div class="box">
-            <h3>ANNUAL</h3>
-            <h4><sup>$</sup>69.99<span> / year</span></h4>
-            <ul>
-              <li>✓ No Advertisements</li>
-              <li>✓ 2-Month Discounts</li>
-              <li>✓ Hassle-Free-Automatic Renewal</li>
-              <li>✓ Unlimited Dramas and TV Shows for a Year</li>
-              <li class="na">Massa ultricies mi</li>
-            </ul>
-            <div class="btn-wrap">
-              <a href="#" class="btn-buy">Buy Now</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
           <div class="box">
             <h3>DAILY</h3>
             <h4><sup>$</sup>0.99<span> / day</span></h4>
