@@ -2,16 +2,36 @@
 {% load static %}
 
 {% block content %}
-    <style>
-        .pricing .box p {
-          padding: 0;
-          list-style: none;
-          color: #2a2a2a;
-          text-align: center;
-          line-height: 20px;
-          font-size: 16px;
-        }
-    </style>
+  <script>
+    var csrftokena = getCookie('csrftoken');
+
+    function join_weekly(){
+        var joinurl = window.location.origin+'/plan/join_weekly_membership/';
+        var jxhr = new XMLHttpRequest();
+        jxhr.onreadystatechange = function() {
+          if (jxhr.readyState ==4 ){
+            var data = jxhr.response;
+            var obj = JSON.parse(data);
+            alert(obj.result_msg);
+          }
+        };
+        jxhr.open("GET",joinurl,false);
+        jxhr.setRequestHeader("X-CSRFToken",csrftokena);
+        jxhr.send(null);
+    }
+  </script>
+
+  <style>
+      .pricing .box p {
+        padding: 0;
+        list-style: none;
+        color: #2a2a2a;
+        text-align: center;
+        line-height: 20px;
+        font-size: 16px;
+      }
+  </style>
+
   <section id="album" class="team">
     <div class="container">
       <div class="section-title" style="float:left;">
@@ -48,6 +68,7 @@
 
       <div class="section-title">
         <h2>MY MEMBERSHIP</h2>
+         <p>{% firstof user.get_short_name user.get_username %}</p>
       </div>
 
       <div class="row">
@@ -63,7 +84,7 @@
               <li>✓ Unlimited Dramas and TV Shows for a Month</li>
             </ul>
             <div class="btn-wrap">
-              <a href="join_weekly_membership" class="btn-buy">Buy Now</a>
+              <a class="btn-buy" onclick="join_weekly()" >Buy Now</a>
             </div>
           </div>
         </div>
