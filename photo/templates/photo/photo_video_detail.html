@@ -24,7 +24,26 @@
         </div>
     </div>
     </body>
-    <script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+        var csrftokenm = getCookie('csrftoken');
+        var videoClass = {{ video.video_class }};
+        var joinurl = window.location.origin+'/photo_video_detail/'+'{{video.video_key}}'+'/checkmembership_photo/';
+        var pxhr = new XMLHttpRequest();
+        pxhr.onreadystatechange = function() {
+          if (pxhr.readyState ==4 ){
+            var data = pxhr.response;
+            var obj = JSON.parse(data);
+            if ( videoClass > obj.active){
+                alert('MEMBERSHIP 구독 신청하세요!');
+                location.href = window.location.origin +'/plan/';
+            }
+          }
+        };
+        pxhr.open("GET",joinurl,false);
+        pxhr.setRequestHeader("X-CSRFToken",csrftokenm);
+        pxhr.send(null);
+
         var tag = document.createElement('script');
 
         tag.src = "https://www.youtube.com/iframe_api";

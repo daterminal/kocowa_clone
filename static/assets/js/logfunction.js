@@ -33,6 +33,7 @@
         xhr.send(JSON.stringify({
             query: querystr,
         }));
+        xhr.abort();
         event.returnValue='wr';
     });
 
@@ -83,7 +84,7 @@
                   })
                 };
 
-                var grp = window.location.origin+'/graphql'
+                var grp = window.location.origin+'/graphql';
                 fetch(grp, options)
                   .then(
                     function(response) {
@@ -100,6 +101,24 @@
                   .catch(function(err) {
                     console.log('Fetch error :-S', err);
                   });
+                //구독 정보 확인하기
+                var csrftokens = getCookie('csrftoken');
+                var suburl = window.location.origin+'/checkSubscription/';
+                var xhrs = new XMLHttpRequest();
+                xhrs.onreadystatechange = function() {
+                  if (xhrs.readyState ==4 ){
+                    var data = xhrs.response;
+                    var obj = JSON.parse(data);
+                    if (obj.result_msg != undefined){
+                        alert(obj.result_msg);
+                    }
+                  }
+                };
+                xhrs.open("GET",suburl,false);
+                xhrs.setRequestHeader("X-CSRFToken",csrftokens);
+                xhrs.send(null);
+                xhrs.abort();
+
             }else if(document.referrer == 'http://127.0.0.1:8000/accounts/login/'){
                 //login후 로딩될 때 로그 떨어뜨리기
                 var req = new XMLHttpRequest();
@@ -162,6 +181,24 @@
                   .catch(function(err) {
                     console.log('Fetch error :-S', err);
                   });
+
+                //구독 정보 확인하기
+                var csrftokens = getCookie('csrftoken');
+                var suburl = window.location.origin+'/checkSubscription/';
+                var xhrs = new XMLHttpRequest();
+                xhrs.onreadystatechange = function() {
+                  if (xhrs.readyState ==4 ){
+                    var data = xhrs.response;
+                    var obj = JSON.parse(data);
+                    if (obj.result_msg != undefined){
+                        alert(obj.result_msg);
+                    }
+                  }
+                };
+                xhrs.open("GET",suburl,false);
+                xhrs.setRequestHeader("X-CSRFToken",csrftokens);
+                xhrs.send(null);
+                xhrs.abort();
             }
 
         }
@@ -492,69 +529,6 @@
         location.href = myurl;
     }
     function writePlayLog(videoKey) {
-        //컨텐츠 detail에서 재생버튼 클릭했을 때 로그 떨어뜨리기
-        /*var req = new XMLHttpRequest();
-        var nextUrl = window.location.origin+playUrl;
-        req.open('GET', nextUrl, false);
-        req.send(null);
-
-        var data = new Object();
-
-        var headers = req.getAllResponseHeaders().toLowerCase();
-        var aHeaders = headers.split('\n');
-        var i =0;
-        for (i= 0; i < aHeaders.length; i++) {
-            var thisItem = aHeaders[i];
-            var key = thisItem.substring(0, thisItem.indexOf(':'));
-            var value = thisItem.substring(thisItem.indexOf(':')+1);
-            if (key == "server") {
-                server = value;
-            }
-        }
-        req.abort();
-        //ip주소 받기
-        var ipurl = window.location.origin+'/get_client_ip/';
-        var htr = new XMLHttpRequest();
-        htr.open('GET', ipurl,false);
-        htr.send(null);
-        var myip = htr.response;
-        htr.abort();
-
-        myserver = server.slice(1,5); //wsgi
-        var useragent = navigator.userAgent;
-        var myurl = nextUrl;
-
-        querystr = 'mutation { weblogCreate(serverDesc: "'+myserver+'", urlDesc: "'+myurl+'", userAgent: "'+useragent+'",action: "Click/Play",clientIp: "'+myip+'") { weblog { memberNo serverDesc useragent urlDesc action clientIp logDate } } }'
-
-        const options = {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            query: querystr
-          })
-        };
-
-        var grp = window.location.origin+'/graphql'
-        fetch(grp, options)
-          .then(
-            function(response) {
-              if (response.status !== 200) {
-                console.log('Error : ' + response.status);
-                return;
-              }
-              response.json().then(function(data) {
-                var i;
-                var obj = data.data.weblogCreate.weblog;
-              });
-            }
-          )
-          .catch(function(err) {
-            console.log('Fetch error :-S', err);
-          });
-        location.href = myurl;*/
-
         var req = new XMLHttpRequest();
         var nextUrl = window.location.origin+videoKey;
         req.open('GET', nextUrl, false);
@@ -681,3 +655,5 @@
           });
         location.href = myurl;
     }
+
+

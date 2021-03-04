@@ -24,7 +24,28 @@
         </div>
     </div>
     </body>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
+        var csrftokenm = getCookie('csrftoken');
+        var videoClass = {{ video.video_class }};
+
+        var joinurl = window.location.origin+'/drama/video_detail/'+'{{video.video_key}}'+'/checkmembership/';
+        var jxhr = new XMLHttpRequest();
+        jxhr.onreadystatechange = function() {
+          if (jxhr.readyState ==4 ){
+            var data = jxhr.response;
+            var obj = JSON.parse(data);
+            if ( videoClass > obj.active){
+                alert('MEMBERSHIP 구독 신청하세요!');
+                location.href = window.location.origin +'/plan/';
+            }
+          }
+        };
+        jxhr.open("GET",joinurl,false);
+        jxhr.setRequestHeader("X-CSRFToken",csrftokenm);
+        jxhr.send(null);
+
         var tag = document.createElement('script');
 
         tag.src = "https://www.youtube.com/iframe_api";

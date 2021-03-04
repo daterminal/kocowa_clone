@@ -51,12 +51,12 @@
       <div class="row">
         <div class="box" align="center" style="margin:0 auto;">
           <img src="{% static 'plan6.png' %}">
-          <p>ENJOY WITH BIGGER SCREENS</p>
+          <p style="padding:3px;">ENJOY WITH BIGGER SCREENS</p>
         </div>
 
         <div class="box" align="center" style="margin:0 auto;">
           <img src="{% static 'plan7.png' %}">
-          <p>ENJOY WITHOUT ADS</p>
+          <p style="padding:3px;">ENJOY WITHOUT ADS</p>
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@
 
       <div class="section-title">
         <h2>MY MEMBERSHIP</h2>
-         <p>{% firstof user.get_short_name user.get_username %}</p>
+        <p style="padding:10px;">{% firstof user.get_short_name user.get_username %}님이 구독 하실 수 있는 서비스 입니다. </p>
       </div>
 
       <div class="row">
@@ -77,11 +77,14 @@
             <h3>WEEKLY</h3>
             <h4><sup>$</sup>3.99<span> / week</span></h4>
             <ul>
-              <li>✓ No Advertisements</li>
-              <li>✓ No Commitment</li>
-              <li>✓ 7-Day Free Trial</li>
-              <li>✓ Hassle-Free-Automatic Renewal</li>
-              <li>✓ Unlimited Dramas and TV Shows for a Month</li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li>✓ More contents</li>
+              <li>✓ Unlimited Dramas and TV Shows for a Week</li>
+              <li></li>
+              <li></li>
+              <li></li>
             </ul>
             <div class="btn-wrap">
               <a class="btn-buy" onclick="join_weekly()" >Buy Now</a>
@@ -91,23 +94,23 @@
 
         <div class="col-lg-4 col-md-6 mt-4 mt-md-0">
           <div class="box">
-            <h3>DAILY</h3>
+            <h3><del>DAILY</del></h3>
             <h4><sup>$</sup>0.99<span> / day</span></h4>
             <ul>
-              <li>✓ No Advertisements</li>
-              <li>✓ 1-Time Payment & No Renewal</li>
-              <li>✓ No Commitment</li>
+              <li></li>
+              <li>✓ 지금은 이용할 수 없는 서비스 입니다. </li>
+              <li>✓ Now This service is not operated </li>
+              <li></li>
               <li>✓ Unlimited Dramas and TV Shows for 24 Hours</li>
-              <li>✓ Inexpensive & Convenient Way to Try Out</li>
+              <li></li>
+              <li></li>
             </ul>
             <div class="btn-wrap">
-              <a href="#" class="btn-buy">Buy Now</a>
+              <a href="#" class="btn-buy"><del>Buy Now</del></a>
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   </section><!-- End Pricing Section -->
 

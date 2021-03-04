@@ -30,8 +30,8 @@ class UserCreationForm(UserCreationForm):
         # Save the provided password in hashed format
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
-        # if commit:
-        #     user.save()
+        if commit:
+            user.save()
         #     # Creating a new UserMembership
         #     user_membership = UserMembership.objects.create(user=user, membership=self.free_membership)
         #     user_membership.save()

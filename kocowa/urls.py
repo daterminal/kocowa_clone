@@ -24,8 +24,12 @@ urlpatterns = [
     path('accounts/register/done/', UserCreateDoneTV.as_view(), name='register_done'),
 
     path('mykocowa/',views.mykocowa,name='mykocowa'),
-    path('plan', views.plan, name='plan'),
+    path('plan/', views.plan, name='plan'),
     # path('getLog/',views.getLog,name='getLog'),
     path('get_client_ip/',views.get_client_ip,name='get_client_ip'),
+
+    path('plan/join_weekly_membership/',views.join_weekly_membership,name='join_weekly_membership'),
+
+    path('checkSubscription/',views.checkSubscription,name='checkSubscription'),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

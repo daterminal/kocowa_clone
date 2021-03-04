@@ -55,7 +55,7 @@ def join_weekly_membership(request):
     else:
         #membership에 가입한 적이 있는 회원
         #구독 중인지 확인하기
-        subscript = Subscription.objects.get(user_membership_id = memlist[0].id)
+        subscript = Subscription.objects.filter(user_membership_id = memlist[0].id)
         if not subscript:
             #membershiplist에는 있는데 구독이 끝난 회원
             addMember = CustomUserMembership.objects.create(period_day=7, customuser_id_id= user.id)
@@ -64,8 +64,31 @@ def join_weekly_membership(request):
             addSub.save()
         else:
             #구독 중인 회원
-            context = {'result_msg': "WEEKLY MEMBERSHIP 이미 구독 하였습니다!"}
+            if subscript[0].active:
+                context = {'result_msg': "WEEKLY MEMBERSHIP 이미 구독 하였습니다!"}
+            else:
+                context = {'result_msg': "오류입니다.. 알려주세요.."}
             return JsonResponse(context,content_type="application/json")
 
     context = {'result_msg':" WEEKLY MEMBERSHIP 구독 신청하였습니다!"}
     return JsonResponse(context,content_type="application/json")
+
+@csrf_exempt
+def checkSubscription(request):
+    from datetime import datetime, timedelta
+    if request.user.is_authenticated:#로그인 한 유저
+        user = request.user
+        memlist = CustomUserMembership.objects.filter(customuser_id_id = user.id).order_by('-id')[:1]
+        if memlist:#membership에 가입한 적이 있는 회원
+            subscript = Subscription.objects.filter(user_membership_id = memlist[0].id)
+            if subscript:#구독 중인 회원
+                subscription = subscript[0]
+                due = memlist[0].join_dt + timedelta(days=memlist[0].period_day)
+                if datetime.now() > due:
+                    #subscription 지우기
+                    subscription.delete()
+                    context={'result_msg':'멤버십 구독 기간이 만료 되었습니다!'}
+                    return JsonResponse(context, content_type="application/json")
+                context={}
+                return JsonResponse(context, content_type="application/json")
+    return render(request,"base.html")

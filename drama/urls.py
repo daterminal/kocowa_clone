@@ -4,6 +4,10 @@ from drama import views
 
 
 app_name = 'drama'
+
+
+
+
 urlpatterns = [
 
     # Example: /photo/
@@ -21,6 +25,5 @@ urlpatterns = [
     path('like/', views.likes, name="likes"),
 
     path('video_detail/<video_key>/', views.video_detail, name='video_detail'),
-
+    path('video_detail/<video_key>/checkmembership/', views.checkmembership, name="checkmembership"),
 ]
-

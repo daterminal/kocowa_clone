@@ -22,5 +22,6 @@ urlpatterns = [
 
     path('photo_video_detail/<video_key>/', views.photo_video_detail, name='photo_video_detail'),
 
+    path('photo_video_detail/<video_key>/checkmembership_photo/', views.checkmembership_photo, name="checkmembership_photo"),
     # path('episode_list/', views.episode_list, name='episode_list'),
 ]

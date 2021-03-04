@@ -2,7 +2,8 @@ from django.views.generic import ListView, DetailView
 from photo.models import Album, Photo
 from django.shortcuts import render
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from membership.models import CustomUserMembership, Subscription
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 class AlbumLV(ListView):
@@ -54,3 +55,28 @@ def photo_video_detail(request,video_key):
 #     context['episode_list'] = serializers.serialize('json',episode)
 #     print(context['episode_list'])
 #     return HttpResponse(context, content_type='application/json')
+@csrf_exempt
+def checkmembership_photo(request,video_key):
+    #video class와 membership 여부를 비교하기 위한 부분
+    if not request.user.is_authenticated:
+        context = {"message": "로그인을 해주세요"}
+        return HttpResponse(json.dumps(context), content_type='application/json')
+    user = request.user  # request.user : 현재 로그인한 유저
+    member = CustomUserMembership.objects.filter(customuser_id_id = user.id).order_by('-id')[:1]
+
+    # CustumUserMembership에 데이터가 없는 경우
+    if not member :
+        context = {'active':0}
+    else:
+        subscript = Subscription.objects.filter(user_membership_id=member[0].id)
+        # Subscription 데이터가 없는 경우
+        if not subscript :
+            context = {'active':0}
+        else:
+            if subscript[0].active:
+                active = 1
+            else:
+                active = 0
+            print(active)
+            context = {'active': active}
+    return JsonResponse(context,content_type="application/json")
