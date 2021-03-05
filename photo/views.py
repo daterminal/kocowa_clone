@@ -77,6 +77,5 @@ def checkmembership_photo(request,video_key):
                 active = 1
             else:
                 active = 0
-            print(active)
             context = {'active': active}
     return JsonResponse(context,content_type="application/json")
