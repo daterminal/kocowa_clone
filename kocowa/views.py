@@ -43,7 +43,8 @@ def get_client_ip(request):
 @csrf_exempt
 def join_weekly_membership(request):
     if not request.user.is_authenticated:
-        return render(request,"login.html")
+        context = {"message": "로그인을 해주세요"}
+        return JsonResponse(context, content_type='application/json')
     user = request.user
     memlist = CustomUserMembership.objects.filter(customuser_id_id = user.id).order_by('-id')[:1]
     if not memlist:
@@ -70,7 +71,7 @@ def join_weekly_membership(request):
                 context = {'result_msg': "오류입니다.. 알려주세요.."}
             return JsonResponse(context,content_type="application/json")
 
-    context = {'result_msg':" WEEKLY MEMBERSHIP 구독 신청하였습니다!"}
+    context = {'success_msg':" WEEKLY MEMBERSHIP 구독 신청하였습니다!"}
     return JsonResponse(context,content_type="application/json")
 
 @csrf_exempt

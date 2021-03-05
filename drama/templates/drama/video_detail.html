@@ -36,8 +36,11 @@
           if (jxhr.readyState ==4 ){
             var data = jxhr.response;
             var obj = JSON.parse(data);
-            if ( videoClass > obj.active){
-                alert('MEMBERSHIP 구독 신청하세요!');
+            if ( obj.message != undefined ){ //로그인 안 한 유저
+                alert(obj.message);
+                location.href = '{% url 'login' %}' ;
+            }else if ( videoClass > obj.active ){
+                alert('MEMBERSHIP 구독 신청하시면 이용하실 수 있습니다!');
                 location.href = window.location.origin +'/plan/';
             }
           }

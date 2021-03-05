@@ -12,12 +12,29 @@
           if (jxhr.readyState ==4 ){
             var data = jxhr.response;
             var obj = JSON.parse(data);
-            alert(obj.result_msg);
+            if (obj.message != undefined){
+              //로그인 안한 유저
+              alert(obj.message);
+              location.href = '{% url 'login' %}' ;
+            }else if ( obj.result_msg != undefined ){ //이미 구독
+              alert(obj.result_msg);
+              if ( document.referrer.includes("video_detail") || document.referrer.includes("photo_video_detail") ){
+                //비디오 play click해서 들어온 유저
+                location.href = document.referrer;
+              }
+            }else if ( obj.success_msg != undefined ){ //구독성공
+              alert(obj.success_msg);
+              if ( document.referrer.includes("video_detail") || document.referrer.includes("photo_video_detail") ){
+                //비디오 play click해서 들어온 유저
+                location.href = document.referrer;
+              }
+            }
           }
         };
         jxhr.open("GET",joinurl,false);
         jxhr.setRequestHeader("X-CSRFToken",csrftokena);
         jxhr.send(null);
+
     }
   </script>
 
