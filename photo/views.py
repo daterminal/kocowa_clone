@@ -59,7 +59,6 @@ def photo_video_detail(request,video_key):
 def checkmembership_photo(request,video_key):
     #video class와 membership 여부를 비교하기 위한 부분
     if not request.user.is_authenticated:
-        print('로그인 안한 유저')
         context = {"message": "로그인을 해주세요"}
         return JsonResponse(context, content_type='application/json')
     user = request.user  # request.user : 현재 로그인한 유저
@@ -78,6 +77,5 @@ def checkmembership_photo(request,video_key):
                 active = 1
             else:
                 active = 0
-            print(active)
             context = {'active': active}
     return JsonResponse(context,content_type="application/json")
