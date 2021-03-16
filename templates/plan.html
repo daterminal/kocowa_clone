@@ -4,14 +4,79 @@
 {% block content %}
   <script>
     var csrftokena = getCookie('csrftoken');
+    function writeJoinLog(){
+      var req = new XMLHttpRequest();
+      req.open('GET', document.location, false);
+      req.send(null);
+      //로그 기록
+      var data2 = new Object();
 
+      var headers = req.getAllResponseHeaders().toLowerCase();
+      var aHeaders = headers.split('\n');
+      var i =0;
+      for (i= 0; i < aHeaders.length; i++) {
+          var thisItem = aHeaders[i];
+          var key = thisItem.substring(0, thisItem.indexOf(':'));
+          var value = thisItem.substring(thisItem.indexOf(':')+1);
+          if (key == "server") {
+              server = value;
+          }
+      }
+      req.abort();
+      //ip주소 받기
+      var ipurl = window.location.origin+'/get_client_ip/';
+      var htr = new XMLHttpRequest();
+      htr.open('GET', ipurl, false);
+      htr.send(null);
+      var myip = htr.response;
+
+      myserver = server.slice(1,5); //wsgi
+      var useragent = navigator.userAgent;
+      var myurl = window.location.href;
+      htr.abort();
+
+      querystr = 'mutation { weblogCreate(serverDesc: "'+myserver+'", urlDesc: "'+myurl+'", userAgent: "'+useragent+'",action: "Buy Now", clientIp: "'+myip+'" ) { weblog { memberNo serverDesc useragent urlDesc action clientIp logDate } } }'
+
+      const options = {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          query: querystr
+        })
+      };
+
+      var grp = window.location.origin+'/graphql'
+      fetch(grp, options)
+        .then(
+          function(response) {
+            if (response.status !== 200) {
+              console.log('Error : ' + response.status);
+              return;
+            }
+            response.json().then(function(data2) {
+              var i;
+              var obj = data2.data.weblogCreate.weblog;
+            });
+          }
+        )
+        .catch(function(err) {
+          console.log('Fetch error :-S', err);
+        });
+      if ( document.referrer.includes("video_detail") || document.referrer.includes("photo_video_detail") ){
+        //비디오 play click해서 들어온 유저
+        location.href = document.referrer;
+      }
+    }
     function join_weekly(){
         var joinurl = window.location.origin+'/plan/join_weekly_membership/';
         var jxhr = new XMLHttpRequest();
         jxhr.onreadystatechange = function() {
-          if (jxhr.readyState ==4 ){
+          if (jxhr.readyState ==4){
             var data = jxhr.response;
             var obj = JSON.parse(data);
+
             if (obj.message != undefined){
               //로그인 안한 유저
               alert(obj.message);
@@ -24,17 +89,14 @@
               }
             }else if ( obj.success_msg != undefined ){ //구독성공
               alert(obj.success_msg);
-              if ( document.referrer.includes("video_detail") || document.referrer.includes("photo_video_detail") ){
-                //비디오 play click해서 들어온 유저
-                location.href = document.referrer;
-              }
+              jxhr.abort();
+              writeJoinLog();
             }
           }
         };
         jxhr.open("GET",joinurl,false);
         jxhr.setRequestHeader("X-CSRFToken",csrftokena);
         jxhr.send(null);
-
     }
   </script>
 
@@ -131,6 +193,4 @@
     </div>
   </section><!-- End Pricing Section -->
 
-  <main id = "main">
-  </main>
 {% endblock %}
