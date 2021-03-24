@@ -17,7 +17,7 @@ urlpatterns = [
     path('graphql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
     # path('photo/', include('photo.urls')),
     path('drama/', include('drama.urls')),
-
+    path('chart/', include('chart.urls')),
     # 인증 URL
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/register/', UserCreateView.as_view(), name='register'),
