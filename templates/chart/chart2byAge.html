@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <script src="{% static 'js/chart.min.js' %}"></script>
+	<script src="{% static 'js/utils.js' %}"></script>
+
+  <!-- ======= Pricing Section ======= -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>KOCOWA 연령별 이용자 수 합계</h2>
+      </div>
+
+      <div class="row">
+      <body>
+	<div style="width:100%;">
+		<canvas id="canvas"></canvas>
+	</div>
+	<br>
+	<br>
+
+	<button><a href="{% url 'chart2bySex' %}">성별</a></button>
+	<button><a href="{% url 'chart2byAge' %}">연령별</a></button>
+	<button><a href="{% url 'chart2byCity' %}">지역별</a></button>
+      </div>
+    </div>
+  </section><!-- End Pricing Section -->
+
+  <main id = "main">
+  </main>
+
+<script>
+		var MENU = [{% for i in rs10 %}'{{ i.0 }}',{% endfor %}];
+		var config = {
+			type: 'line',
+			data: {
+				labels: [{% for i in rs10 %}'{{ i.0 }}',{% endfor %}],
+				datasets: [{
+					label: '10대',
+					backgroundColor: window.chartColors.yellow,
+					borderColor: window.chartColors.yellow,
+					data: [
+                        {% for data in rs10 %}
+                            '{{data.1}}',
+                        {% endfor %}
+                        ],
+					fill: false,
+				},
+				{
+					label: '20대',
+					backgroundColor: window.chartColors.green,
+					borderColor: window.chartColors.green,
+					data: [
+                        {% for data in rs20 %}
+                            '{{data.1}}',
+                        {% endfor %}
+                        ],
+					fill: false,
+				},
+				{
+					label: '30대',
+					backgroundColor: window.chartColors.blue,
+					borderColor: window.chartColors.blue,
+					data: [
+                        {% for data in rs30 %}
+                            '{{data.1}}',
+                        {% endfor %}
+                        ],
+					fill: false,
+				},
+				{
+					label: '40대',
+					backgroundColor: window.chartColors.purple,
+					borderColor: window.chartColors.purple,
+					data: [
+                        {% for data in rs40 %}
+                            '{{data.1}}',
+                        {% endfor %}
+                        ],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Chart.js Line Chart'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Time'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Count'
+						}
+					}]
+				}
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
+
+	</script>
+
+{% endblock %}
