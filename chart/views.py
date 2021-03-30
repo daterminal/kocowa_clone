@@ -262,8 +262,8 @@ def chart2byCity(request):
                 """)
         rsBusan = cursor.fetchall()
 
-    return render(request, "chart/chart2byAge.html", {
+    return render(request, "chart/chart2byCity.html", {
         'rsSeoul':rsSeoul,
         'rsDaejeon':rsDaejeon,
-        'rsBusan': rsBusan,
+        'rsBusan': rsBusan
     })
