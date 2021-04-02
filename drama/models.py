@@ -27,6 +27,7 @@ class Drama(models.Model):
     video_key = models.CharField('VIDEO KEY', max_length=30, null=True)
     upload_dt = models.DateTimeField('UPLOAD DATE', auto_now_add=True)
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True)
+    drama_video_time = models.TimeField('DRAMA VIDEO TIME', null=True)
 
     class Meta:
         ordering = ('title',)
