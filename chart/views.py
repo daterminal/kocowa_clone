@@ -233,3 +233,192 @@ def chart2byCity(request):
         'rsDaejeon':rsDaejeon,
         'rsBusan': rsBusan
     })
+
+# Membership Chart
+def chartM(request):
+    import pymysql
+    dbCon = pymysql.connect(host='223.194.46.212',
+                            user='root',
+                            password='12345!',
+                            db='kocowa')
+    cursor = dbCon.cursor()
+
+    with dbCon:
+        cursor.execute("""
+        with recursive time as
+        (select 0 as hour union all select hour+1 from time where hour<23)
+        SELECT TIME.hour, COUNT(distinct membership_customusermembership.customuser_id_id)
+        FROM membership_customusermembership RIGHT OUTER JOIN time ON (time.hour=HOUR(membership_customusermembership.join_dt))
+        GROUP BY hour
+        """)
+        rsMembershipUseByTime = cursor.fetchall()
+
+    return render(request, "chart/membership_chart.html", {
+        'rsMembershipUseByTime':rsMembershipUseByTime
+    })
+
+def chartM_Sex(request):
+    import pymysql
+    dbCon = pymysql.connect(host='223.194.46.212',
+                            user='root',
+                            password='12345!',
+                            db='kocowa')
+    cursor = dbCon.cursor()
+
+    with dbCon:
+        # 여자
+        cursor.execute("""
+            with recursive time as
+            (select 0 as hour union all select hour+1 from time where hour<23)
+            SELECT TIME.hour, COUNT(distinct A.mno)
+            from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+            FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+            ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+            WHERE userauth_customuser.sexType="WOMAN") A
+            RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(A.join_dt))
+            GROUP BY hour
+        """)
+        rsWoman = cursor.fetchall()
+
+        # 남자
+        cursor.execute("""
+                with recursive time as
+                (select 0 as hour union all select hour+1 from time where hour<23)
+                SELECT TIME.hour, COUNT(distinct B.mno)
+                from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+                FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+                ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+                WHERE userauth_customuser.sexType="MAN") B
+                RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(B.join_dt))
+                GROUP BY hour
+                """)
+        rsMan = cursor.fetchall()
+
+    return render(request, "chart/membership_chart_sex.html", {
+        'rsWoman':rsWoman,
+        'rsMan':rsMan
+    })
+
+def chartM_Age(request):
+    import pymysql
+    dbCon = pymysql.connect(host='223.194.46.212',
+                            user='root',
+                            password='12345!',
+                            db='kocowa')
+    cursor = dbCon.cursor()
+
+    with dbCon:
+        # 10대
+        cursor.execute("""
+        with recursive time as
+        (select 0 as hour union all select hour+1 from time where hour<23)
+        SELECT TIME.hour, COUNT(distinct A.mno)
+        from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+        FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+        ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+        WHERE userauth_customuser.age BETWEEN 10 AND 19) A
+        RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(A.join_dt))
+        GROUP BY hour
+        """)
+        rs10 = cursor.fetchall()
+        # 20대
+        cursor.execute("""
+        with recursive time as
+        (select 0 as hour union all select hour+1 from time where hour<23)
+        SELECT TIME.hour, COUNT(distinct B.mno)
+        from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+        FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+        ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+        WHERE userauth_customuser.age BETWEEN 20 AND 29) B
+        RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(B.join_dt))
+        GROUP BY hour
+                """)
+        rs20 = cursor.fetchall()
+        # 30대
+        cursor.execute("""
+        with recursive time as
+        (select 0 as hour union all select hour+1 from time where hour<23)
+        SELECT TIME.hour, COUNT(distinct C.mno)
+        from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+        FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+        ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+        WHERE userauth_customuser.age BETWEEN 30 AND 39) C
+        RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(C.join_dt))
+        GROUP BY hour
+                """)
+        rs30 = cursor.fetchall()
+        # 40대
+        cursor.execute("""
+        with recursive time as
+        (select 0 as hour union all select hour+1 from time where hour<23)
+        SELECT TIME.hour, COUNT(distinct D.mno)
+        from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+        FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+        ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+        WHERE userauth_customuser.age BETWEEN 40 AND 49) D
+        RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(D.join_dt))
+        GROUP BY hour
+                """)
+        rs40 = cursor.fetchall()
+
+    return render(request, "chart/membership_chart_age.html", {
+        'rs10': rs10,
+        'rs20': rs20,
+        'rs30': rs30,
+        'rs40': rs40
+    })
+
+def chartM_City(request):
+    import pymysql
+    dbCon = pymysql.connect(host='223.194.46.212',
+                            user='root',
+                            password='12345!',
+                            db='kocowa')
+    cursor = dbCon.cursor()
+
+    with dbCon:
+        # 서울
+        cursor.execute("""
+        with recursive time as
+        (select 0 as hour union all select hour+1 from time where hour<23)
+        SELECT TIME.hour, COUNT(distinct A.mno)
+        from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+        FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+        ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+        WHERE userauth_customuser.city = "Seoul" OR userauth_customuser.city = "서울") A
+        RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(A.join_dt))
+        GROUP BY hour
+        """)
+        rsSeoul = cursor.fetchall()
+        # 대전
+        cursor.execute("""
+        with recursive time as
+        (select 0 as hour union all select hour+1 from time where hour<23)
+        SELECT TIME.hour, COUNT(distinct B.mno)
+        from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+        FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+        ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+        WHERE userauth_customuser.city = "Daejeon" OR userauth_customuser.city = "대전") B
+        RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(B.join_dt))
+        GROUP BY hour
+                """)
+        rsDaejeon = cursor.fetchall()
+        # 부산
+        cursor.execute("""
+        with recursive time as
+        (select 0 as hour union all select hour+1 from time where hour<23)
+        SELECT TIME.hour, COUNT(distinct C.mno)
+        from(SELECT membership_customusermembership.customuser_id_id mno, membership_customusermembership.join_dt join_dt
+        FROM membership_customusermembership LEFT OUTER JOIN userauth_customuser
+        ON membership_customusermembership.customuser_id_id=userauth_customuser.id
+        WHERE userauth_customuser.city = "Busan" OR userauth_customuser.city = "부산") C
+        RIGHT OUTER JOIN TIME ON (TIME.hour=HOUR(C.join_dt))
+        GROUP BY hour
+                """)
+        rsBusan = cursor.fetchall()
+
+    return render(request, "chart/membership_chart_city.html", {
+        'rsSeoul':rsSeoul,
+        'rsDaejeon':rsDaejeon,
+        'rsBusan': rsBusan
+    })
