@@ -36,12 +36,7 @@ def chart(request):
                 value[j] += 0
             else:
                 value[j] += rsDuration[i][j]
-    # for i in range(len(rsDuration)):
-    #     for j in range(10):
-    #         if rsDuration[i][j] == None:
-    #             value[j] += 0
-    #         elif rsDuration[i][j]:
-    #             value[j] += 1
+
 
     return render(request, "chart/chart.html", {
         'rsDuration': value
@@ -422,3 +417,103 @@ def chartM_City(request):
         'rsDaejeon':rsDaejeon,
         'rsBusan': rsBusan
     })
+
+def chart3(request):
+    import pymysql
+    from collections import deque
+    dbCon = pymysql.connect(host='223.194.46.212',
+                            user='root',
+                            password='12345!',
+                            db='kocowa')
+    cursor = dbCon.cursor()
+
+    with dbCon:
+        cursor.execute("""
+            SELECT member_no, url_desc, log_date
+            FROM weblog
+            WHERE url_desc LIKE "http://223%"
+            order BY member_no
+        """)
+
+    contents = cursor.fetchall()
+    contents = list(contents)
+
+    od = []
+
+    # 전후 페이지가 동일하면 pass 아니라면 리스트에 추가
+    for i in range(len(contents) - 1):
+        if contents[i][1] == contents[i + 1][1]:
+            continue
+        else:
+            od.append([contents[i][1], contents[i + 1][1]])
+
+    # 중복 행 개수를 카운트해서 가중치로 표현
+    od_sum = []
+    for i in range(len(od)):
+        od_sum.append(od[i][0] + " " + od[i][1])
+
+    count = {}
+    for i in od_sum:
+        try:
+            count[i] += 1
+        except:
+            count[i] = 1
+
+    table = []
+    for k, v in count.items():
+        o, d = k.split(' ')
+        table.append([o, d, v])
+
+    # 가중치가 1이라면 시각화 편의를 위해 제거
+    idx = 0
+    for i in range(len(table)):
+        if table[idx][2] == 1:
+            del table[idx]
+        else:
+            idx += 1
+
+
+    # O와 D가 같은 데이터 제거 및 Home에서 시작하는 데이터를 Path에 추가
+    path = []
+    idx = 0
+    for i in range(len(table)):
+        if table[idx][0] == 'http://223.194.46.212:8730/':
+            path.append(table[idx])
+            del table[idx]
+        elif table[idx][1] == 'http://223.194.46.212:8730/':
+            del table[idx]
+        else:
+            idx += 1
+
+    # 가중치 상위 10개만 골라서 추가
+    path.sort(key=lambda x:x[2], reverse=True)
+    path = path[:10]
+
+    for _ in range(3):
+        q = deque()
+        for i in range(len(path)):
+            q.append(path[i][1])
+
+        while q:
+            x = q.popleft()
+            li = []
+            for j in range(len(table)):
+                if x == table[j][0]:
+                    check = 0
+                    for z in range(len(path)):
+                        if path[z][1] == table[j][1]:
+                            check = 1
+                            break
+                    if not check:
+                        li.append(table[j])
+
+            li.sort(key=lambda x: x[2], reverse=True)
+            if len(li) > 2:
+                li = li[:3]
+            else:
+                pass
+            for i in range(len(li)):
+                path.append(li[i])
+
+
+    return render(request, "chart/chart4.html", {'rs': path})
