@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/sankey.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+  <!-- ======= Pricing Section ======= -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>KOCOWA User Mobility</h2>
+      </div>
+
+  </section><!-- End Pricing Section -->
+
+  <main id = "main">
+  </main>
+
+<div id="container">
+
+</div>
+
+<script>
+  Highcharts.chart('container', {
+
+    chart: {
+        inverted: true
+    },
+
+    title: {
+        text: 'Highcharts Inverted Sankey Diagram'
+    },
+
+    series: [{
+        keys: ['from', 'to', 'weight'],
+        data: [
+            {% for data in rs %}
+            ['{{data.0}}','{{data.1}}',{{data.2}}],
+            {% endfor %}
+        ],
+        type: 'sankey',
+        name: 'Sankey demo series'
+    }]
+
+});
+
+</script>
+
+
+{% endblock %}

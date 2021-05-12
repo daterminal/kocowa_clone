@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/sankey.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+  <!-- ======= Pricing Section ======= -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>KOCOWA User Mobility</h2>
+      </div>
+
+  </section><!-- End Pricing Section -->
+
+  <main id = "main">
+  </main>
+
+<div id="container">
+
+</div>
+
+<script>
+  Highcharts.chart('container', {
+
+    title: {
+        text: 'Highcharts Sankey Diagram'
+    },
+    accessibility: {
+        point: {
+            valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.'
+        }
+    },
+    series: [{
+        keys: ['from', 'to', 'weight'],
+        data: [
+            {% for data in rs %}
+            ['{{data.0}}','{{data.1}}',{{data.2}}],
+            {% endfor %}
+        ],
+        type: 'sankey',
+        name: 'Sankey demo series'
+    }]
+
+});
+
+
+</script>
+
+
+{% endblock %}
