@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <script src="{% static 'js/chart.min.js' %}"></script>
+	<script src="{% static 'js/utils.js' %}"></script>
+
+  <!-- ======= Pricing Section ======= -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>KOCOWA 시간대별 이용자 수 합계</h2>
+      </div>
+
+      <div class="row">
+      <body>
+	<div style="width:100%;">
+		<canvas id="canvas"></canvas>
+	</div>
+	<br>
+	<br>
+
+	<button><a href="{% url 'chart2MultiBySex' %}">성별</a></button>
+      </div>
+    </div>
+  </section><!-- End Pricing Section -->
+
+  <main id = "main">
+  </main>
+
+<script>
+		var MENU = [{% for i in rsWomanNow %}'{{ i.0 }}',{% endfor %}];
+		var config = {
+			type: 'line',
+			data: {
+				labels: [{% for i in rsWomanNow %}'{{ i.0 }}',{% endfor %}],
+				datasets: [{
+					label: '한 달 여자 이용자 수',
+					backgroundColor: '#FF607F',
+					borderColor: '#FF607F',
+					data: [
+                        {% for data in rsWomanNow %}
+                            '{{data.1}}',
+                        {% endfor %}
+                        ],
+					fill: false,
+				},
+				{
+					label: '한달 전 여자 이용자 수',
+					backgroundColor: '#FFACB7',
+					borderColor: '#FFACB7',
+					data: [
+                        {% for data in rsWomanBefore %}
+                            '{{data.1}}',
+                        {% endfor %}
+                        ],
+					fill: false,
+				},
+				{
+					label: '한달 남자 이용자 수',
+					backgroundColor: '#0078FF',
+					borderColor: '#0078FF',
+					type: 'bar',
+					data: [
+                        {% for data in rsManNow %}
+                            '{{data.1}}',
+                        {% endfor %}
+                        ],
+					fill: false,
+				},
+				{
+					label: '한달 전 남자 이용자 수',
+					backgroundColor: '#A0D1F7',
+					borderColor: '#A0D1F7',
+					type: 'bar',
+					data: [
+                        {% for data in rsManBefore %}
+                            '{{data.1}}',
+                        {% endfor %}
+                        ],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Chart.js Line Chart'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Time'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Count'
+						}
+					}]
+				}
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
+
+	</script>
+
+{% endblock %}
