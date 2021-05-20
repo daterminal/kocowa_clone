@@ -485,11 +485,11 @@ def chart3(request):
         else:
             idx += 1
 
-    # 가중치 상위 10개만 골라서 추가
+    # 가중치 상위 5개만 골라서 추가
     path.sort(key=lambda x:x[2], reverse=True)
-    path = path[:10]
+    path = path[:5]
 
-    for _ in range(3):
+    for _ in range(4):
         q = deque()
         for i in range(len(path)):
             q.append(path[i][1])
@@ -499,19 +499,21 @@ def chart3(request):
             li = []
             for j in range(len(table)):
                 if x == table[j][0]:
-                    check = 0
+                    check = False
+                    # 이전 노드에 추가된 값인지 확인
                     for z in range(len(path)):
                         if path[z][1] == table[j][1]:
-                            check = 1
+                            check = True
                             break
                     if not check:
                         li.append(table[j])
 
             li.sort(key=lambda x: x[2], reverse=True)
-            if len(li) > 2:
-                li = li[:3]
+            if len(li) >= 2:
+                li = li[:1]
             else:
                 pass
+
             for i in range(len(li)):
                 path.append(li[i])
 
