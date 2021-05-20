@@ -12,4 +12,5 @@ urlpatterns = [
     path('chartM/bySex/', views.chartM_Sex, name="chartM_Sex"),
     path('chartM/byAge/', views.chartM_Age, name="chartM_Age"),
     path('chartM/byCity/', views.chartM_City, name="chartM_City"),
+    path('chart3/', views.chart3, name="chart3"),
 ]
