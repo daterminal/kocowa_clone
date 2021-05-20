@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     'drama.apps.DramaConfig',
     'widget_tweaks',
     'weblog',
+    'kocowa' ,
     'graphene_django',
     'corsheaders',
-    'membership',
+    'membership.apps.MembershipConfig',
     'userauth.apps.UserauthConfig',
 ]
 

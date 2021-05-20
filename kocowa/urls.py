@@ -18,6 +18,7 @@ urlpatterns = [
     # path('photo/', include('photo.urls')),
     path('drama/', include('drama.urls')),
     path('chart/', include('chart.urls')),
+
     # 인증 URL
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/register/', UserCreateView.as_view(), name='register'),
@@ -25,11 +26,10 @@ urlpatterns = [
 
     path('mykocowa/',views.mykocowa,name='mykocowa'),
     path('plan/', views.plan, name='plan'),
-    # path('getLog/',views.getLog,name='getLog'),
+    path('recommend/', views.recommend, name='recommend'),
+
     path('get_client_ip/',views.get_client_ip,name='get_client_ip'),
-
     path('plan/join_weekly_membership/',views.join_weekly_membership,name='join_weekly_membership'),
-
     path('checkSubscription/',views.checkSubscription,name='checkSubscription'),
-
+    # path('play',views.play,name='play'),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
