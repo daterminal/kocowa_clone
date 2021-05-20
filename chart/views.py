@@ -518,7 +518,7 @@ def chart3(request):
                 path.append(li[i])
 
 
-    return render(request, "chart/chart4.html", {'rs': path})
+    return render(request, "chart/chart5.html", {'rs': path})
 
 
 def chartY(request):
