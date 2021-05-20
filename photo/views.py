@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from photo.models import Album, Photo
+from kocowa.models import Recommend
 from django.shortcuts import render
 import json
 from django.http import HttpResponse, JsonResponse
@@ -8,7 +9,28 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 class AlbumLV(ListView):
     model = Album
+    #recommend_list를 전달하기 위해
+    def get_context_data(self, **kwargs):
+        context =super(AlbumLV,self).get_context_data(**kwargs)
 
+        if self.request.user.is_anonymous:
+            return context
+        elif self.request.user.is_authenticated:
+            user = self.request.user
+            user_recommend = Recommend.objects.get(member_no=user.id)
+            recom1 = user_recommend.recom1
+            recom2 = user_recommend.recom2
+            recom3 = user_recommend.recom3
+            recom4 = user_recommend.recom4
+            recom5 = user_recommend.recom5
+            recom6 = user_recommend.recom6
+            recom7 = user_recommend.recom7
+            recom8 = user_recommend.recom8
+            recommend_list = [recom1,recom2,recom3,recom4,recom5,recom6,recom7,recom8]
+            context['recommend_list'] = recommend_list
+            return context
+        else:
+            return context
 
 class AlbumDV(DetailView):
     model = Album
