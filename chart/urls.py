@@ -13,4 +13,11 @@ urlpatterns = [
     path('chartM/byAge/', views.chartM_Age, name="chartM_Age"),
     path('chartM/byCity/', views.chartM_City, name="chartM_City"),
     path('chart3/', views.chart3, name="chart3"),
+    path('chartY/', views.chartY, name='chartY'),
+    path('chart2Multi/', views.chart2Multi, name='chart2Multi'),
+    path('chart2MultiBySex/', views.chart2MultiBySex, name='chart2MultiBySex'),
+    path('chartYMulti/', views.chartYMulti, name='chartYMulti'),
+    path('chartLikeTop/', views.chartLikeTop, name='chartLikeTop'),
+    path('chartmMulti/', views.chartmMulti, name='chartmMulti'),
+    path('chartMulti/', views.chartMulti, name='chartMulti'),
 ]
