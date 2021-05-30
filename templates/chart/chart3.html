@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <!-- ======= Pricing Section ======= -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>KOCOWA User Mobility</h2>
+      </div>
+
+      <div id="sankey_basic">
+
+      </div>
+  </section><!-- End Pricing Section -->
+
+  <main id = "main">
+  </main>
+
+
+
+
+<script>
+  google.load('visualization', '1.1', {
+  packages: ['sankey']
+});
+google.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'From');
+  data.addColumn('string', 'To');
+  data.addColumn('number', 'Weight');
+  data.addRows([
+        {% for data in rs %}
+        ['{{data.0}}','{{data.1}}',{{data.2}}],
+        {% endfor %}
+  ]);
+
+  // Sets chart options.
+  var options = {
+    width: 1200,
+    sankey: { node: { nodePadding: 500 } },
+
+  };
+
+var colors = ['#a6cee3', '#a6cee3', '#a6cee3', '#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f',
+                  '#cab2d6', '#ffff99', '#33a02c'];
+
+    var options = {
+      height: 400,
+      sankey: {
+        node: {
+          colors: colors
+        },
+        link: {
+          colorMode: 'gradient',
+          colors: colors
+        }
+      }
+    };
+
+
+  // Instantiates and draws our chart, passing in some options.
+
+
+  var chart = new
+  google.visualization.Sankey(document.getElementById('sankey_basic'));
+
+  google.visualization.events.addListener(chart, 'select', selectHandler);
+
+  chart.draw(data, options);
+}
+
+function selectHandler(e) {
+  alert('The user selected' + orgChart.getSelection().length + ' items.');
+}
+
+
+</script>
+
+
+{% endblock %}
