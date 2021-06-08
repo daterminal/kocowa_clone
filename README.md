@@ -11,8 +11,8 @@ ID : user
 PASSWORD : 1234
 
 # 프로그램 사용 전
-pip install pymysql
-pip install mysqlclient
+- pip install pymysql
+- pip install mysqlclient
 pip install graphene-django
 pip install django-widget-tweaks
 pip install django-cors-headers
