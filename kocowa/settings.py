@@ -94,9 +94,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kocowa',
         'USER': 'root',
-        'PASSWORD': '12345!',
-        'HOST': '223.194.46.212',
-        'PORT': '3306',
+        'PASSWORD': '', #DB 서버 정보 입력
+        'HOST': '', #DB 서버 정보 입력
+        'PORT': '', #DB 서버 정보 입력
     }
 }
 
