@@ -186,7 +186,7 @@ def recommend(request):
     #         col_name = recom_df.iloc[j][i]
 
     from sqlalchemy import create_engine
-    engine = create_engine("mysql://root:12345!@223.194.46.212/kocowa")
+    engine = create_engine("mysql://root:password@address/kocowa") #DB서버 정보 입력
     recom_df.to_sql('recommend', con = engine, if_exists='append',index_label='member_no')
     return HttpResponse('')
 
