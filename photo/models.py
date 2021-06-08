@@ -25,6 +25,7 @@ class Photo(models.Model):
     description = models.TextField('Photo Description', blank=True)
     image = ThumbnailImageField('IMAGE', upload_to='photo/%Y/%m')
     video_key = models.CharField('VIDEO KEY', max_length=30, null=True)
+    video_class = models.IntegerField('VIDEO CLASS', default=0)
     upload_dt = models.DateTimeField('UPLOAD DATE', auto_now_add=True)
     love = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='loves', blank=True)
     photo_video_time = models.TimeField('PHOTO VIDEO TIME', null=True)
