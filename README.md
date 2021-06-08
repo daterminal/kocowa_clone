@@ -23,4 +23,4 @@ PASSWORD : 1234
 - python manage.py makemigrations photo
 - python manage.py makemigrations drama
 - python manage.py makemigrations membership
-
+- python manage.py makemigrations userauth
