@@ -3,10 +3,10 @@ from django.shortcuts import render
 
 def chart(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
             with dbCon:
             cursor.execute("""
@@ -44,10 +44,10 @@ def chart(request):
 
 def chart2(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -66,10 +66,10 @@ def chart2(request):
 
 def chart2bySex(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -107,10 +107,10 @@ def chart2bySex(request):
 
 def chart2byAge(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -176,10 +176,10 @@ def chart2byAge(request):
 
 def chart2byCity(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -232,10 +232,10 @@ def chart2byCity(request):
 # Membership Chart
 def chartM(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -254,10 +254,10 @@ def chartM(request):
 
 def chartM_Sex(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -296,10 +296,10 @@ def chartM_Sex(request):
 
 def chartM_Age(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -365,10 +365,10 @@ def chartM_Age(request):
 
 def chartM_City(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -421,10 +421,10 @@ def chartM_City(request):
 def chart3(request):
     import pymysql
     from collections import deque
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -523,10 +523,10 @@ def chart3(request):
 
 def chartY(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -571,10 +571,10 @@ def chartY(request):
 
 def chart2Multi(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -604,10 +604,10 @@ def chart2Multi(request):
 
 def chartYMulti(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -686,10 +686,10 @@ def chartYMulti(request):
 
 def chartLikeTop(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -714,10 +714,10 @@ def chartLikeTop(request):
 
 def chartmMulti(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -747,10 +747,10 @@ def chartmMulti(request):
 
 def chart2MultiBySex(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
@@ -816,10 +816,10 @@ def chart2MultiBySex(request):
 
 def chartMulti(request):
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보 입력
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='', 
+                            db='')
     cursor = dbCon.cursor()
     with dbCon:
         cursor.execute("""
