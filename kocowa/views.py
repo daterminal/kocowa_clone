@@ -101,10 +101,10 @@ def checkSubscription(request):
 def recommend(request):
     import pandas as pd
     import pymysql
-    dbCon = pymysql.connect(host='223.194.46.212',
+    dbCon = pymysql.connect(host='', #서버 정보
                             user='root',
-                            password='12345!',
-                            db='kocowa')
+                            password='',
+                            db='')
     cursor = dbCon.cursor()
 
     with dbCon:
