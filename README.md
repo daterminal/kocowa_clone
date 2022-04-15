@@ -24,3 +24,5 @@ PASSWORD : 1234
 # 로그 발생 코드 위치 
 - kocowa_clone/static/assets/js/logfunction.js
 
+# 사용자별 추천 코드 위치
+- kocowa_clone/blob/main/photo/templates/photo/album_list.html
