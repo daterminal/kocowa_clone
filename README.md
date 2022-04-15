@@ -20,3 +20,7 @@ PASSWORD : 1234
 - python manage.py makemigrations drama
 - python manage.py makemigrations membership
 - python manage.py makemigrations userauth
+
+# 로그 발생 코드 위치 
+- kocowa_clone/static/assets/js/logfunction.js
+
